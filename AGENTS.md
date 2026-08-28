@@ -67,11 +67,20 @@ Every scientifically distinct milestone follows a gated human-in-the-loop workfl
 
 Use `temp_content/` for editable planning/discussion material.
 
-The user may place feedback in:
+The global user feedback file is:
 
-`temp_content/feedbacks.md`
+`temp_content/feedback/feedback.md`
 
-Treat that file as a user-facing feedback inbox. Do not overwrite or delete user feedback merely to mark it handled.
+Treat that file as a user-facing feedback inbox. Feedback is organized by Markdown milestone and phase tabs/headings. For the active task, read the corresponding milestone/phase tab and use its latest entry as the default feedback unless the user's current interactive instruction overrides it. Read any supplementary files linked from that entry. Do not overwrite or delete user feedback merely to mark it handled. Archive the interpreted feedback and response in the active milestone's phase dialogue file.
+
+When presenting open questions for user decision, the default format for each question is:
+
+1. **Problem statement**: define the unresolved decision as a concrete core question.
+2. **Assumed model-chain function**: explain what the affected functionality is expected to do and where it sits in the approved/proposed data flow.
+3. **Core gap**: identify exactly what is not yet specified or evidenced and why implementation cannot safely infer it.
+4. **Candidates and recommendation**: list the smallest viable choices, briefly state each choice's advantages and disadvantages, and give a clearly labeled recommendation with its rationale.
+
+Use this expanded format whenever the user asks to list or review open questions, unless the user explicitly requests a shorter inventory. Keep recommendations provisional until the user approves them, and preserve any decision dependencies between questions.
 
 For each active milestone, create:
 
@@ -84,12 +93,12 @@ Archive the current milestone discussion in phase-specific files. For an impleme
 - `phase_B_revision.md`
 - `phase_B_dialogue.md`
 - `phase_C_candidate_plan.md`
-- `phase_D1_<component>_worklog.md`
-- `phase_E1_<component>_validation.md`
-- `phase_D2_<component>_worklog.md`
-- `phase_E2_<component>_validation.md`
-- `phase_D_integration_worklog.md`
-- `phase_E_integration_validation.md`
+- `phase_D/phase_D1_<component>_worklog.md`
+- `phase_E/phase_E1_<component>_validation.md`
+- `phase_D/phase_D2_<component>_worklog.md`
+- `phase_E/phase_E2_<component>_validation.md`
+- `phase_D/phase_D_integration_worklog.md`
+- `phase_E/phase_E_integration_validation.md`
 - `phase_F_closure.md`
 
 The exact number of component files follows the approved milestone plan. The phase archive should capture useful methodological/implementation reasoning, user decisions, rejected alternatives, component-checkpoint decisions, integration anomalies, and unresolved items. Do not dump a raw chat transcript when a concise decision record preserves the needed information.
@@ -117,7 +126,7 @@ For the current milestone:
 ### Phase B — discuss and revise
 
 1. Treat the proposal as unapproved until the user explicitly accepts it.
-2. Read new feedback from `temp_content/feedbacks.md` and archive the relevant discussion in the current milestone's phase dialogue file.
+2. Read the latest applicable entry from the active milestone/phase tab in `temp_content/feedback/feedback.md`, inspect its linked supplementary files, and archive the relevant discussion in the current milestone's phase dialogue file.
 3. Answer questions and revise the proposal without starting implementation.
 4. Do not silently resolve choices that can change model fidelity, gradient semantics, experimental meaning, or comparison fairness.
 5. When alternatives exist, present the smallest viable options and their scientific/engineering consequences.
@@ -167,6 +176,12 @@ For each component `i`:
 3. **User checkpoint.** Report the component evidence and stop. The user decides whether the component is accepted as the trusted dependency for the next component, needs correction, or requires a plan/interface amendment.
 4. Component acceptance means **correct under the currently approved interface and semantics**, not permanently immutable. If later integration exposes a genuine coupling defect, reopen the smallest affected component/interface explicitly and repeat its D_i/E_i evidence rather than hiding the fix in integration glue.
 5. A scientifically meaningful ambiguity discovered during D_i or E_i still triggers the ordinary change-control rule: document the evidence, propose the smallest amendment, and wait for approval before changing behavior.
+
+Default component-pass reporting and error handling:
+
+- After every authorized D_i implementation, proceed directly to its E_i checks unless the user limits the task further, and always write the component's validation report under the active milestone's `phase_E/` folder.
+- Codex may diagnose and fix syntactic, procedural, test-harness, and implementation-conformance errors within the approved component plan, rerunning the affected E_i checks and recording the corrections.
+- If a failure shows that the approved method, scientific semantics, or acceptance contract is invalid or cannot be implemented as specified, stop the component pass. Write a diagnosis report with the evidence, affected contract, and smallest viable amendment candidates for reopening D_i/E_i; do not silently change methodology or weaken the failed criterion.
 
 This cycle gives early component closure while preserving a system-level design. It does not create separate scientific milestones for each component.
 
@@ -285,6 +300,13 @@ Repository-wide protocol:
 7. On resumption, inspect exit status, logs, failures, shard completeness, and checksums before aggregation or interpretation. Do not silently retry failed or missing scientific runs.
 8. Destructive restarts, overwrites, forced termination, or deletion of results require explicit approval when they may discard work.
 9. Benchmark concurrency before a large CPU/GPU run. Resource scheduling may change for efficiency, but scenarios, seeds, precision, optimization budgets, and acceptance rules must not be reduced merely to shorten runtime.
+
+## Command escalation 
+
+By default, codex sessions are run inside the sandbox. This may render some resources by default unavailable, such as GPU. If you want to request resources that are 
+unavailable inside the sandbox, or find that a command cannot access required resources unless escalated, you should raise an escalation request upon manual approval.
+
+Default user preference: when an in-scope required command fails in a way that may be caused by the sandbox, retry the same required operation with the minimum justified escalation before proposing or attempting a behavior-changing alternative. In particular, do not replace required GPU execution with CPU execution merely because an un-escalated probe reports CUDA unavailable.
 
 ## Implementation style
 

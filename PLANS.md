@@ -2,7 +2,7 @@
 
 ## Current project status
 
-Status: Repository migration / initialization. No implementation milestone is approved or active.
+Status: Milestone 0 Component 0.1 D1/E1 completed on 2026-08-27; awaiting the Component 0.1 user checkpoint. Component 0.2 is not authorized.
 
 The methodology and high-level implementation backbone are defined in `PROJECT_CONTEXT.md`. The milestone sequence below is provisional at project start. Codex must enter Phase A for only the next milestone requested by the user and must not implement it until Phase C approval.
 
@@ -30,7 +30,7 @@ Do not conflate implementation progress with scientific acceptance.
 
 ## Milestone 0 — reproducible differentiable LTM baseline
 
-Status: Provisional; not approved.
+Status: Approved on 2026-08-27; Component 0.1 E1 complete and awaiting user checkpoint. Authoritative plan: `docs/milestones/milestone_0_ltm_baseline.md`.
 
 ### Goal and shared architecture gate
 

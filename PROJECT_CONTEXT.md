@@ -2,9 +2,9 @@
 
 ## Project status
 
-Status: Initial methodology and implementation backbone defined. No implementation milestone is approved yet.
+Status: Initial methodology and implementation backbone defined. Milestone 0's authoritative component-first plan was approved on 2026-08-27; Component 0.1 E1 is complete and awaiting the user checkpoint.
 
-The repository should begin with the milestone sequence in `PLANS.md`. Codex must enter Phase A for the first milestone and stop for user review before implementation.
+The repository follows the milestone sequence in `PLANS.md`. Milestone 0 implementation must follow `docs/milestones/milestone_0_ltm_baseline.md` one component D/E checkpoint at a time.
 
 ## 1. Research motivation
 
