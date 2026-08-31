@@ -323,6 +323,18 @@ Defaults unless an approved milestone says otherwise:
 - Save machine-readable results in CSV/JSONL/Parquet as appropriate and human-readable summaries in Markdown or plain text.
 - Do not use notebooks as the only implementation of core simulator or scientific experiments.
 
+## PowerPoint artifact conventions
+
+Unless the user gives request-specific overrides, presentation requests use these defaults:
+
+- produce exactly two boilerplate slides: a title slide and a contents slide;
+- target 8–12 substantive slides in addition to the two boilerplate slides;
+- use Calibri, with 32 pt titles and 18 pt main text on substantive slides;
+- keep non-title main text to at most eight lines per slide;
+- favor compact, precise explanation and clear element arrangement over decoration;
+- use only basic visual styling; include plots or images only when they materially improve explanation, and group any self-created plot as one slide object;
+- return a `.ppt` or `.pptx` artifact at the requested location.
+
 ## Work report
 
 At the end of each Codex task, report:

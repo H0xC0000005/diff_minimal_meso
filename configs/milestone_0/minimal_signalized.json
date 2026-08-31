@@ -1,0 +1,13 @@
+{
+  "schema_version": "milestone-0-diagnostics-v1",
+  "dt_s": 1.0,
+  "horizon_steps": 4,
+  "stable": {
+    "green": [0.4, 0.6],
+    "arrival_pair": [1.0, 10.0]
+  },
+  "event_boundary": {
+    "green": [0.5, 0.5],
+    "arrival_pair": [5.0, 0.0]
+  }
+}
