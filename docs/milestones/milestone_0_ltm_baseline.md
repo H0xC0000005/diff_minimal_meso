@@ -1,10 +1,12 @@
 # Milestone 0 — reproducible differentiable LTM baseline
 
-Status: **Approved**
+Status: **Closed**
 
 Approval date: 2026-08-27
 
-Phase: Component 0.1 E1 complete; awaiting user checkpoint
+Closure date: 2026-08-31
+
+Phase: Phase F complete; all component and integration gates accepted
 
 ## 1. Scientific purpose
 
@@ -798,6 +800,8 @@ This file supersedes, for Milestone 0 implementation only:
 
 Those files remain the discussion/audit archive. `AGENTS.md`, `PROJECT_CONTEXT.md`, and `PLANS.md` retain their higher-level authority.
 
-## 16. Next allowed action
+## 16. Closure decision and next allowed action
 
-Begin **Component 0.1 Phase D1 only** after the user explicitly requests implementation and authorizes any required dependency installation. Then run its E1 evidence and stop for the Component 0.1 checkpoint. Do not implement Component 0.2 in the same pass.
+The user explicitly closed Milestone 0 on 2026-08-31 after accepting all seven component checkpoints and the complete D_integration/E_integration evidence. The durable integration report is under `reports/milestone_0_ltm_baseline/integration_e_20260831/`; the Phase F decision record is `temp_content/milestone_0_ltm_baseline/phase_F_closure.md`.
+
+Milestone 0_a1 is a proposed headless-visualizer add-on and is not part of this scientific closure. It has not entered Phase A. Do not implement it, install Matplotlib, create its development branch, or begin Milestone 1 until explicitly requested under the applicable workflow.

@@ -2,7 +2,7 @@
 
 ## Current project status
 
-Status: Milestone 0 Component 0.1 D1/E1 completed on 2026-08-27; awaiting the Component 0.1 user checkpoint. Component 0.2 is not authorized.
+Status: Milestone 0 closed on 2026-08-31 after all component and integration gates passed. Milestone 0_a1 is a provisional headless-visualizer add-on that has not entered Phase A. Milestone 1 has not started.
 
 The methodology and high-level implementation backbone are defined in `PROJECT_CONTEXT.md`. The milestone sequence below is provisional at project start. Codex must enter Phase A for only the next milestone requested by the user and must not implement it until Phase C approval.
 
@@ -30,7 +30,7 @@ Do not conflate implementation progress with scientific acceptance.
 
 ## Milestone 0 — reproducible differentiable LTM baseline
 
-Status: Approved on 2026-08-27; Component 0.1 E1 complete and awaiting user checkpoint. Authoritative plan: `docs/milestones/milestone_0_ltm_baseline.md`.
+Status: Closed on 2026-08-31. All Component 0.1–0.7 and integration D/E gates passed and were accepted. Authoritative plan and closure record: `docs/milestones/milestone_0_ltm_baseline.md`.
 
 ### Goal and shared architecture gate
 
@@ -99,11 +99,40 @@ After Components 0.1–0.7 have each passed their D_i/E_i user checkpoint, integ
 
 ### Admission to next milestone
 
-Do not proceed until every required component checkpoint and the final macro integration gate are accepted.
+Satisfied on 2026-08-31. The optional Milestone 0_a1 tooling branch remains separate from the scientific closure.
+
+## Milestone 0_a1 — headless macro-baseline visualizer add-on
+
+Status: Provisional pre-Phase-A intake; not opened. Proposed development branch: a new milestone-qualified branch from the closed Milestone 0 state on `main`.
+
+### Goal
+
+Provide a small deterministic Matplotlib-based, headless visualization layer over the accepted Milestone 0 simulator and recorded rollout/gradient evidence. It should make the simulation process traceable and create fixed comparison views for later macro–meso experiments without implementing a second traffic simulator or changing Milestone 0 equations.
+
+### Provisional scope
+
+- Conda-managed Matplotlib dependency installation planned and recorded in the future approved D/E pass;
+- noninteractive/headless rendering from the accepted simulator and immutable result histories;
+- simple topology view plus essential link occupancy/storage, boundary flow, node movement flow, source-queue, signal-service, conservation, and gradient information;
+- deterministic layout/configuration, units, time convention, scales, provenance, and non-overwriting artifacts;
+- arbitrary handcrafted scenarios only within the accepted simulator's eventual explicitly approved initialization contract;
+- semantic data/render checks and a small set of ordinary, signalized, and spillback-oriented visual fixtures.
+
+### Explicit non-goals
+
+- no interactive GUI, editor, live control, or SUMO/Vissim/MATSim-style application;
+- no duplicate simulation/update logic inside plotting code;
+- no change to traffic equations, gradient semantics, or accepted Milestone 0 evidence;
+- no claim that aggregate occupancy is a spatial queue profile;
+- no Milestone 1 route/order/lane functionality.
+
+### Gate
+
+The add-on must follow its own Phases A–F. Before Phase A, resolve the questions recorded in `temp_content/milestone_0_a1_headless_visualizer/pre_phase_A_intake.md`. Do not create the branch, install dependencies, or implement the visualizer merely from this roadmap entry.
 
 ## Milestone 1 — ordered continuous route-mass ledger
 
-Status: Provisional; blocked by Milestone 0 closure.
+Status: Provisional; Milestone 0 prerequisite satisfied, but not started. Coordination with the separate Milestone 0_a1 branch remains a pre-start workflow decision.
 
 ### Goal and shared architecture gate
 
