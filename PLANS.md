@@ -128,7 +128,7 @@ Provide a small deterministic Matplotlib-based, headless visualization layer ove
 
 ### Gate
 
-Phases A–C are complete. Components A1.1 and A1.2 are accepted. A1.3 D3/E3 passed on 2026-09-01 and awaits its user checkpoint. Do not begin integration until A1.3 is accepted, and do not merge the branch into `main` unless the user later chooses to do so.
+Phases A–C and all three component checkpoints are complete. D/E integration passed on 2026-09-01; Milestone 0_a1 now awaits Phase F user review and explicit closure. Do not begin a later milestone or merge branch `m0_a1` into `main` unless the user later chooses to do so.
 
 ## Milestone 1 — ordered continuous route-mass ledger
 
