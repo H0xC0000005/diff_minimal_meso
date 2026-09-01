@@ -1,0 +1,132 @@
+{
+  "schema_version": "m0-a1-scenario-v1",
+  "dt_s": 1.0,
+  "horizon_steps": 18,
+  "links": [
+    {"id": "leg8_in", "label": "Leg 8 origin [nominal 8→4]", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.5, "jam_storage_veh": 3.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "leg7_in", "label": "Leg 7 origin [nominal 7→3]", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.5, "jam_storage_veh": 10.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "leg1_in", "label": "Leg 1 origin [nominal 1→6]", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.5, "jam_storage_veh": 10.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "leg6_in", "label": "Leg 6 origin [nominal 6→1]", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.5, "jam_storage_veh": 10.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "leg2_in", "label": "Leg 2 origin [nominal 2→5]", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.5, "jam_storage_veh": 10.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "leg5_in", "label": "Leg 5 origin [nominal 5→2]", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.5, "jam_storage_veh": 10.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+
+    {"id": "nw_to_ne_selected", "label": "NW→NE [nominal 8→4 upstream]", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.5, "jam_storage_veh": 3.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "ne_to_se_selected", "label": "NE→SE [shared nominal 8→4 + 2→5]", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.5, "jam_storage_veh": 3.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "nw_to_sw_background", "label": "NW→SW [background]", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.0, "jam_storage_veh": 10.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "sw_to_se_background", "label": "SW→SE bottleneck [background]", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.0, "jam_storage_veh": 10.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "se_to_ne_background", "label": "SE→NE [background]", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.0, "jam_storage_veh": 10.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "ne_to_nw_background", "label": "NE→NW [background]", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.0, "jam_storage_veh": 10.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+
+    {"id": "leg1_out", "label": "Leg 1 exit", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.0, "jam_storage_veh": 10.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "leg2_out", "label": "Leg 2 exit", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.0, "jam_storage_veh": 10.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "leg3_out", "label": "Leg 3 exit", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.0, "jam_storage_veh": 10.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "leg4_out", "label": "Leg 4 exit [aggregate; nominal 8→4]", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.5, "jam_storage_veh": 3.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "leg5_out", "label": "Leg 5 exit", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.0, "jam_storage_veh": 10.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "leg6_out", "label": "Leg 6 exit", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.0, "jam_storage_veh": 10.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0}
+  ],
+  "nodes": [
+    {
+      "id": "northwest", "kind": "ordinary_orca",
+      "input_links": ["leg8_in", "leg1_in", "ne_to_nw_background"],
+      "output_links": ["nw_to_ne_selected", "nw_to_sw_background", "leg1_out"],
+      "movements": [
+        {"input": "leg8_in", "output": "nw_to_ne_selected", "beta": 1.0},
+        {"input": "leg1_in", "output": "nw_to_sw_background", "beta": 1.0},
+        {"input": "ne_to_nw_background", "output": "leg1_out", "beta": 0.5},
+        {"input": "ne_to_nw_background", "output": "nw_to_sw_background", "beta": 0.5}
+      ],
+      "input_capacity_rate": [1.5, 1.5, 1.0]
+    },
+    {
+      "id": "northeast", "kind": "ordinary_orca",
+      "input_links": ["nw_to_ne_selected", "se_to_ne_background", "leg2_in"],
+      "output_links": ["ne_to_se_selected", "leg2_out", "leg3_out", "ne_to_nw_background"],
+      "movements": [
+        {"input": "nw_to_ne_selected", "output": "ne_to_se_selected", "beta": 1.0},
+        {"input": "se_to_ne_background", "output": "leg2_out", "beta": 0.25},
+        {"input": "se_to_ne_background", "output": "leg3_out", "beta": 0.25},
+        {"input": "se_to_ne_background", "output": "ne_to_nw_background", "beta": 0.5},
+        {"input": "leg2_in", "output": "ne_to_se_selected", "beta": 1.0}
+      ],
+      "input_capacity_rate": [1.5, 1.0, 1.5]
+    },
+    {
+      "id": "southwest", "kind": "ordinary_orca",
+      "input_links": ["nw_to_sw_background", "leg6_in", "leg7_in"],
+      "output_links": ["leg6_out", "sw_to_se_background"],
+      "movements": [
+        {"input": "nw_to_sw_background", "output": "leg6_out", "beta": 0.5},
+        {"input": "nw_to_sw_background", "output": "sw_to_se_background", "beta": 0.5},
+        {"input": "leg6_in", "output": "sw_to_se_background", "beta": 1.0},
+        {"input": "leg7_in", "output": "sw_to_se_background", "beta": 1.0}
+      ],
+      "input_capacity_rate": [1.0, 1.5, 1.5]
+    },
+    {
+      "id": "southeast", "kind": "ordinary_orca",
+      "input_links": ["ne_to_se_selected", "sw_to_se_background", "leg5_in"],
+      "output_links": ["leg4_out", "leg5_out", "se_to_ne_background"],
+      "movements": [
+        {"input": "ne_to_se_selected", "output": "leg4_out", "beta": 0.5},
+        {"input": "ne_to_se_selected", "output": "leg5_out", "beta": 0.5},
+        {"input": "sw_to_se_background", "output": "leg5_out", "beta": 0.5},
+        {"input": "sw_to_se_background", "output": "se_to_ne_background", "beta": 0.5},
+        {"input": "leg5_in", "output": "se_to_ne_background", "beta": 1.0}
+      ],
+      "input_capacity_rate": [1.5, 1.0, 1.5]
+    }
+  ],
+  "sources": [
+    {"link_id": "leg8_in", "arrivals": [1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]},
+    {"link_id": "leg7_in", "arrivals": [0.0, 0.0, 1.5, 1.5, 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]},
+    {"link_id": "leg1_in", "arrivals": [0.0, 1.0, 1.5, 1.5, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]},
+    {"link_id": "leg6_in", "arrivals": [0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]},
+    {"link_id": "leg2_in", "arrivals": [1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]},
+    {"link_id": "leg5_in", "arrivals": [0.0, 0.0, 0.0, 1.5, 1.5, 1.5, 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}
+  ],
+  "sinks": [
+    {"link_id": "leg1_out", "receiving": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]},
+    {"link_id": "leg2_out", "receiving": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]},
+    {"link_id": "leg3_out", "receiving": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]},
+    {"link_id": "leg4_out", "receiving": [1.5, 1.5, 1.5, 1.5, 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.5, 1.5]},
+    {"link_id": "leg5_out", "receiving": [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]},
+    {"link_id": "leg6_out", "receiving": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]}
+  ],
+  "controls": {},
+  "layout": {
+    "vertices": [
+      {"id": "nw", "x": 0.0, "y": 1.0}, {"id": "ne", "x": 1.0, "y": 1.0},
+      {"id": "sw", "x": 0.0, "y": 0.0}, {"id": "se", "x": 1.0, "y": 0.0},
+      {"id": "leg8", "x": -1.0, "y": 1.0}, {"id": "leg7", "x": -1.0, "y": 0.0},
+      {"id": "leg3", "x": 2.0, "y": 1.0}, {"id": "leg4", "x": 2.0, "y": 0.0},
+      {"id": "leg1_in_v", "x": -0.12, "y": 2.0}, {"id": "leg1_out_v", "x": 0.12, "y": 2.0},
+      {"id": "leg2_in_v", "x": 0.88, "y": 2.0}, {"id": "leg2_out_v", "x": 1.12, "y": 2.0},
+      {"id": "leg6_in_v", "x": -0.12, "y": -1.0}, {"id": "leg6_out_v", "x": 0.12, "y": -1.0},
+      {"id": "leg5_in_v", "x": 0.88, "y": -1.0}, {"id": "leg5_out_v", "x": 1.12, "y": -1.0},
+      {"id": "ne_return", "x": 0.95, "y": 0.98}, {"id": "se_return", "x": 0.95, "y": 0.02}
+    ],
+    "links": [
+      {"link_id": "leg8_in", "tail": "leg8", "head": "nw"},
+      {"link_id": "leg7_in", "tail": "leg7", "head": "sw"},
+      {"link_id": "leg1_in", "tail": "leg1_in_v", "head": "nw"},
+      {"link_id": "leg6_in", "tail": "leg6_in_v", "head": "sw"},
+      {"link_id": "leg2_in", "tail": "leg2_in_v", "head": "ne"},
+      {"link_id": "leg5_in", "tail": "leg5_in_v", "head": "se"},
+      {"link_id": "nw_to_ne_selected", "tail": "nw", "head": "ne"},
+      {"link_id": "ne_to_se_selected", "tail": "ne", "head": "se"},
+      {"link_id": "nw_to_sw_background", "tail": "nw", "head": "sw"},
+      {"link_id": "sw_to_se_background", "tail": "sw", "head": "se"},
+      {"link_id": "se_to_ne_background", "tail": "se_return", "head": "ne_return"},
+      {"link_id": "ne_to_nw_background", "tail": "ne", "head": "nw"},
+      {"link_id": "leg1_out", "tail": "nw", "head": "leg1_out_v"},
+      {"link_id": "leg2_out", "tail": "ne", "head": "leg2_out_v"},
+      {"link_id": "leg3_out", "tail": "ne", "head": "leg3"},
+      {"link_id": "leg4_out", "tail": "se", "head": "leg4"},
+      {"link_id": "leg5_out", "tail": "se", "head": "leg5_out_v"},
+      {"link_id": "leg6_out", "tail": "sw", "head": "leg6_out_v"}
+    ],
+    "node_vertices": {"northwest": "nw", "northeast": "ne", "southwest": "sw", "southeast": "se"},
+    "selected_frames": [0, 4, 6, 9, 12, 14, 16, 18],
+    "comparison_limits": {"queue_veh": [0.0, 8.0], "tst_veh_s": [0.0, 300.0]}
+  }
+}

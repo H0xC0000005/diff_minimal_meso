@@ -1,0 +1,30 @@
+{
+  "schema_version": "m0-a1-scenario-v1",
+  "dt_s": 1.0,
+  "horizon_steps": 4,
+  "links": [
+    {"id": "approach_a", "label": "Approach A", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 10.0, "jam_storage_veh": 100.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "approach_b", "label": "Approach B", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 10.0, "jam_storage_veh": 100.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "exit", "label": "Exit", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 10.0, "jam_storage_veh": 100.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0}
+  ],
+  "nodes": [
+    {
+      "id": "signal", "kind": "restricted_continuum_signal",
+      "input_links": ["approach_a", "approach_b"], "output_links": ["exit"],
+      "movements": [{"input": "approach_a", "output": "exit", "beta": 1.0}, {"input": "approach_b", "output": "exit", "beta": 1.0}],
+      "input_capacity_rate": [10.0, 10.0],
+      "phase_plan": {"phase_ids": [0, 1], "movement_phase_matrix": [[true, false], [false, true]], "input_saturation_rate": [10.0, 10.0]}
+    }
+  ],
+  "sources": [{"link_id": "approach_a", "arrivals": [1.0, 0.0, 0.0, 0.0]}, {"link_id": "approach_b", "arrivals": [10.0, 0.0, 0.0, 0.0]}],
+  "sinks": [{"link_id": "exit", "receiving": [10.0, 10.0, 10.0, 10.0]}],
+  "controls": {"signal": [0.4, 0.6]},
+  "sensitivity": {"node_id": "signal", "direction": [0.7071067811865475, -0.7071067811865475]},
+  "layout": {
+    "vertices": [{"id": "source_a", "x": 0.0, "y": 0.5}, {"id": "source_b", "x": 0.0, "y": -0.5}, {"id": "signal", "x": 1.0, "y": 0.0}, {"id": "sink", "x": 2.0, "y": 0.0}],
+    "links": [{"link_id": "approach_a", "tail": "source_a", "head": "signal"}, {"link_id": "approach_b", "tail": "source_b", "head": "signal"}, {"link_id": "exit", "tail": "signal", "head": "sink"}],
+    "node_vertices": {"signal": "signal"},
+    "selected_frames": [0, 1, 4],
+    "comparison_limits": {"queue_veh": [0.0, 10.0], "tst_veh_s": [0.0, 50.0], "gradient_veh_s": [-20.0, 20.0]}
+  }
+}

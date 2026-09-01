@@ -1,0 +1,76 @@
+{
+  "schema_version": "m0-a1-scenario-v1",
+  "dt_s": 1.0,
+  "horizon_steps": 10,
+  "links": [
+    {"id": "source_to_nw", "label": "Origin approach", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 2.0, "jam_storage_veh": 8.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "nw_to_ne", "label": "North edge (60%)", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 2.0, "jam_storage_veh": 8.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "nw_to_sw", "label": "West edge (40%)", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 2.0, "jam_storage_veh": 8.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "ne_to_se", "label": "East edge", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 2.0, "jam_storage_veh": 8.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "sw_to_se", "label": "South edge", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 2.0, "jam_storage_veh": 8.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "se_to_sink", "label": "Destination exit", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 2.0, "jam_storage_veh": 8.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0}
+  ],
+  "nodes": [
+    {
+      "id": "northwest", "kind": "ordinary_orca",
+      "input_links": ["source_to_nw"], "output_links": ["nw_to_ne", "nw_to_sw"],
+      "movements": [
+        {"input": "source_to_nw", "output": "nw_to_ne", "beta": 0.6},
+        {"input": "source_to_nw", "output": "nw_to_sw", "beta": 0.4}
+      ],
+      "input_capacity_rate": [2.0]
+    },
+    {
+      "id": "northeast", "kind": "ordinary_orca",
+      "input_links": ["nw_to_ne"], "output_links": ["ne_to_se"],
+      "movements": [{"input": "nw_to_ne", "output": "ne_to_se", "beta": 1.0}],
+      "input_capacity_rate": [2.0]
+    },
+    {
+      "id": "southwest", "kind": "ordinary_orca",
+      "input_links": ["nw_to_sw"], "output_links": ["sw_to_se"],
+      "movements": [{"input": "nw_to_sw", "output": "sw_to_se", "beta": 1.0}],
+      "input_capacity_rate": [2.0]
+    },
+    {
+      "id": "southeast", "kind": "ordinary_orca",
+      "input_links": ["ne_to_se", "sw_to_se"], "output_links": ["se_to_sink"],
+      "movements": [
+        {"input": "ne_to_se", "output": "se_to_sink", "beta": 1.0},
+        {"input": "sw_to_se", "output": "se_to_sink", "beta": 1.0}
+      ],
+      "input_capacity_rate": [2.0, 2.0]
+    }
+  ],
+  "sources": [
+    {"link_id": "source_to_nw", "arrivals": [2.0, 2.0, 2.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}
+  ],
+  "sinks": [
+    {"link_id": "se_to_sink", "receiving": [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0]}
+  ],
+  "controls": {},
+  "layout": {
+    "vertices": [
+      {"id": "origin", "x": -1.0, "y": 1.0},
+      {"id": "northwest", "x": 0.0, "y": 1.0},
+      {"id": "northeast", "x": 1.0, "y": 1.0},
+      {"id": "southwest", "x": 0.0, "y": 0.0},
+      {"id": "southeast", "x": 1.0, "y": 0.0},
+      {"id": "destination", "x": 2.0, "y": 0.0}
+    ],
+    "links": [
+      {"link_id": "source_to_nw", "tail": "origin", "head": "northwest"},
+      {"link_id": "nw_to_ne", "tail": "northwest", "head": "northeast"},
+      {"link_id": "nw_to_sw", "tail": "northwest", "head": "southwest"},
+      {"link_id": "ne_to_se", "tail": "northeast", "head": "southeast"},
+      {"link_id": "sw_to_se", "tail": "southwest", "head": "southeast"},
+      {"link_id": "se_to_sink", "tail": "southeast", "head": "destination"}
+    ],
+    "node_vertices": {
+      "northwest": "northwest", "northeast": "northeast",
+      "southwest": "southwest", "southeast": "southeast"
+    },
+    "selected_frames": [0, 1, 2, 3, 4, 5, 7, 10],
+    "comparison_limits": {"queue_veh": [0.0, 4.0], "tst_veh_s": [0.0, 80.0]}
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "m0-a1-scenario-v1",
+  "dt_s": 1.0,
+  "horizon_steps": 5,
+  "links": [
+    {"id": "upstream", "label": "Upstream", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.0, "jam_storage_veh": 10.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0},
+    {"id": "downstream", "label": "Downstream", "critical_density_veh_per_m": 0.1, "capacity_veh_per_s": 1.0, "jam_storage_veh": 10.0, "free_flow_time_s": 1.0, "backward_wave_time_s": 1.0}
+  ],
+  "nodes": [
+    {"id": "junction", "kind": "ordinary_orca", "input_links": ["upstream"], "output_links": ["downstream"], "movements": [{"input": "upstream", "output": "downstream", "beta": 1.0}], "input_capacity_rate": [1.0]}
+  ],
+  "sources": [{"link_id": "upstream", "arrivals": [1.0, 1.0, 0.5, 0.0, 0.0]}],
+  "sinks": [{"link_id": "downstream", "receiving": [10.0, 10.0, 10.0, 10.0, 10.0]}],
+  "controls": {},
+  "layout": {
+    "vertices": [{"id": "source", "x": 0.0, "y": 0.0}, {"id": "junction", "x": 1.0, "y": 0.0}, {"id": "sink", "x": 2.0, "y": 0.0}],
+    "links": [{"link_id": "upstream", "tail": "source", "head": "junction"}, {"link_id": "downstream", "tail": "junction", "head": "sink"}],
+    "node_vertices": {"junction": "junction"},
+    "selected_frames": [0, 2, 5],
+    "comparison_limits": {"queue_veh": [0.0, 3.0], "tst_veh_s": [0.0, 20.0]}
+  }
+}

@@ -2,7 +2,7 @@
 
 ## Current project status
 
-Status: Milestone 0 closed on 2026-08-31 after all component and integration gates passed. Milestone 0_a1 is a provisional headless-visualizer add-on that has not entered Phase A. Milestone 1 has not started.
+Status: Milestone 0 closed on 2026-08-31 after all component and integration gates passed. Milestone 0_a1 Component A1.1 is accepted; Component A1.2 D2/E2 passed on 2026-08-31 and awaits the Candidate-A visual checkpoint. Milestone 1 has not started.
 
 The methodology and high-level implementation backbone are defined in `PROJECT_CONTEXT.md`. The milestone sequence below is provisional at project start. Codex must enter Phase A for only the next milestone requested by the user and must not implement it until Phase C approval.
 
@@ -103,19 +103,19 @@ Satisfied on 2026-08-31. The optional Milestone 0_a1 tooling branch remains sepa
 
 ## Milestone 0_a1 — headless macro-baseline visualizer add-on
 
-Status: Provisional pre-Phase-A intake; not opened. Proposed development branch: a new milestone-qualified branch from the closed Milestone 0 state on `main`.
+Status: Phase C plan approved on 2026-08-31. Component A1.1 was accepted; Component A1.2 D2/E2 passed on 2026-08-31 and awaits user review of Candidate-A overview/selected-frame artifacts. Authoritative plan: `docs/milestones/milestone_0_a1_headless_visualizer.md`. Branch `m0_a1` was created from closed Milestone 0 commit `729d788` on `main`; it is intentionally unmerged unless the user later chooses otherwise.
 
 ### Goal
 
 Provide a small deterministic Matplotlib-based, headless visualization layer over the accepted Milestone 0 simulator and recorded rollout/gradient evidence. It should make the simulation process traceable and create fixed comparison views for later macro–meso experiments without implementing a second traffic simulator or changing Milestone 0 equations.
 
-### Provisional scope
+### Approved scope summary
 
 - Conda-managed Matplotlib dependency installation planned and recorded in the future approved D/E pass;
 - noninteractive/headless rendering from the accepted simulator and immutable result histories;
 - simple topology view plus essential link occupancy/storage, boundary flow, node movement flow, source-queue, signal-service, conservation, and gradient information;
 - deterministic layout/configuration, units, time convention, scales, provenance, and non-overwriting artifacts;
-- arbitrary handcrafted scenarios only within the accepted simulator's eventual explicitly approved initialization contract;
+- arbitrary handcrafted scenarios only within the accepted Milestone 0 empty-start initialization contract;
 - semantic data/render checks and a small set of ordinary, signalized, and spillback-oriented visual fixtures.
 
 ### Explicit non-goals
@@ -128,7 +128,7 @@ Provide a small deterministic Matplotlib-based, headless visualization layer ove
 
 ### Gate
 
-The add-on must follow its own Phases A–F. Before Phase A, resolve the questions recorded in `temp_content/milestone_0_a1_headless_visualizer/pre_phase_A_intake.md`. Do not create the branch, install dependencies, or implement the visualizer merely from this roadmap entry.
+Phases A–C are complete. Components A1.1 and A1.2 are accepted. A1.3 D3/E3 passed on 2026-09-01 and awaits its user checkpoint. Do not begin integration until A1.3 is accepted, and do not merge the branch into `main` unless the user later chooses to do so.
 
 ## Milestone 1 — ordered continuous route-mass ledger
 
