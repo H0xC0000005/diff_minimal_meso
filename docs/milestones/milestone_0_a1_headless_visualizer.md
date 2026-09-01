@@ -1,6 +1,6 @@
 # Milestone 0_a1 — headless macro-baseline visualizer add-on
 
-Status: **Approved**
+Status: **Closed**
 
 Approval date: 2026-08-31
 
@@ -342,4 +342,12 @@ Amendment on 2026-08-31: Candidate A from the D1/E1 sensitivity-direction diagno
 
 Order is strictly A1.1 D1/E1/checkpoint, A1.2 D2/E2/Candidate-A checkpoint, A1.3 D3/E3/checkpoint, D_integration/E_integration, then Phase F. A later component may depend only on accepted predecessors.
 
-Phase C approval does not itself start implementation or install packages. The next allowed action is an explicit user request to open Phase D1 for Component A1.1.
+This implementation order was completed through Phase F on 2026-09-01. No further milestone action is allowed under this plan except an explicitly authorized corrective reopening or separate branch-merge decision.
+
+## 12. Phase F closure
+
+Closed by explicit user decision on 2026-09-01.
+
+Components A1.1–A1.3 and D/E integration passed their approved acceptance criteria and user checkpoints. Final validation reported 164 passed tests and one preexisting optional-GPU skip. Candidate A selected-frame and Candidate B complete-sequence artifacts were generated for the ordinary, paired-signal, and spillback authorities; conservation, shared-frame renderer identity, saved-data re-rendering, deterministic bookkeeping, gradient reporting, and non-overwrite checks passed.
+
+No scientific or engineering issue remains open for this add-on. Closure establishes visualization correctness, reproducibility, and diagnostic usefulness only; it does not add a traffic-fidelity or gradient-usefulness claim. The work remains isolated on branch `m0_a1`. Merge into `main` remains deferred and requires a separate explicit user decision.

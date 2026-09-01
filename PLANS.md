@@ -2,7 +2,7 @@
 
 ## Current project status
 
-Status: Milestone 0 closed on 2026-08-31 after all component and integration gates passed. Milestone 0_a1 Component A1.1 is accepted; Component A1.2 D2/E2 passed on 2026-08-31 and awaits the Candidate-A visual checkpoint. Milestone 1 has not started.
+Status: Milestone 0 closed on 2026-08-31. Optional Milestone 0_a1 closed on branch `m0_a1` on 2026-09-01 and remains intentionally unmerged. Milestone 1 has not started.
 
 The methodology and high-level implementation backbone are defined in `PROJECT_CONTEXT.md`. The milestone sequence below is provisional at project start. Codex must enter Phase A for only the next milestone requested by the user and must not implement it until Phase C approval.
 
@@ -103,7 +103,7 @@ Satisfied on 2026-08-31. The optional Milestone 0_a1 tooling branch remains sepa
 
 ## Milestone 0_a1 — headless macro-baseline visualizer add-on
 
-Status: Phase C plan approved on 2026-08-31. Component A1.1 was accepted; Component A1.2 D2/E2 passed on 2026-08-31 and awaits user review of Candidate-A overview/selected-frame artifacts. Authoritative plan: `docs/milestones/milestone_0_a1_headless_visualizer.md`. Branch `m0_a1` was created from closed Milestone 0 commit `729d788` on `main`; it is intentionally unmerged unless the user later chooses otherwise.
+Status: Closed on 2026-09-01 after Components A1.1–A1.3 and D/E integration passed and were accepted. Authoritative plan and closure record: `docs/milestones/milestone_0_a1_headless_visualizer.md`. Branch `m0_a1` was created from closed Milestone 0 commit `729d788` on `main`; it remains intentionally unmerged unless the user later chooses otherwise.
 
 ### Goal
 
@@ -128,7 +128,7 @@ Provide a small deterministic Matplotlib-based, headless visualization layer ove
 
 ### Gate
 
-Phases A–C and all three component checkpoints are complete. D/E integration passed on 2026-09-01; Milestone 0_a1 now awaits Phase F user review and explicit closure. Do not begin a later milestone or merge branch `m0_a1` into `main` unless the user later chooses to do so.
+Satisfied on 2026-09-01. All planning, component, integration, and Phase F gates are closed. The visualizer remains an optional branch-isolated tool; no merge into `main` is authorized.
 
 ## Milestone 1 — ordered continuous route-mass ledger
 
