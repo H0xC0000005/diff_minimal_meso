@@ -2,9 +2,9 @@
 
 ## Project status
 
-Status: Initial methodology and implementation backbone defined. Milestone 0's authoritative component-first plan was approved on 2026-08-27; Component 0.1 E1 is complete and awaiting the user checkpoint.
+Status: Milestone 0 closed on `main` on 2026-08-31 after all seven component checkpoints and D/E integration passed. Optional Milestone 0_a1 closed separately on branch `m0_a1` on 2026-09-01 and remains intentionally unmerged. Milestone 1 has not started; its next allowed action is Phase A planning on a new branch created from current `main`.
 
-The repository follows the milestone sequence in `PLANS.md`. Milestone 0 implementation must follow `docs/milestones/milestone_0_ltm_baseline.md` one component D/E checkpoint at a time.
+The repository follows the milestone sequence in `PLANS.md`. Closed Milestone 0 is governed by `docs/milestones/milestone_0_ltm_baseline.md`. Milestone 1 must preserve that accepted macro baseline and follow the full gated workflow before implementation. The optional visualizer is available on branch `m0_a1` for reference but is not part of the Milestone 1 branch basis.
 
 ## 1. Research motivation
 

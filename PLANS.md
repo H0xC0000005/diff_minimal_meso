@@ -2,7 +2,7 @@
 
 ## Current project status
 
-Status: Milestone 0 closed on 2026-08-31 after all component and integration gates passed. Milestone 0_a1 is a provisional headless-visualizer add-on that has not entered Phase A. Milestone 1 has not started.
+Status: Milestone 0 closed on `main` on 2026-08-31 after all component and integration gates passed. Optional Milestone 0_a1 closed on its separate branch on 2026-09-01 and remains unmerged. Milestone 1 has not started and is ready for Phase A on a new branch from current `main`.
 
 The methodology and high-level implementation backbone are defined in `PROJECT_CONTEXT.md`. The milestone sequence below is provisional at project start. Codex must enter Phase A for only the next milestone requested by the user and must not implement it until Phase C approval.
 
@@ -103,7 +103,7 @@ Satisfied on 2026-08-31. The optional Milestone 0_a1 tooling branch remains sepa
 
 ## Milestone 0_a1 — headless macro-baseline visualizer add-on
 
-Status: Provisional pre-Phase-A intake; not opened. Proposed development branch: a new milestone-qualified branch from the closed Milestone 0 state on `main`.
+Status: Closed on 2026-09-01 on separate branch `m0_a1` at closure commit `17d421c`; intentionally not merged into `main`. This `main` entry documents the optional tool's existence and branch location without importing its code or branch-specific milestone archive.
 
 ### Goal
 
@@ -128,11 +128,15 @@ Provide a small deterministic Matplotlib-based, headless visualization layer ove
 
 ### Gate
 
-The add-on must follow its own Phases A–F. Before Phase A, resolve the questions recorded in `temp_content/milestone_0_a1_headless_visualizer/pre_phase_A_intake.md`. Do not create the branch, install dependencies, or implement the visualizer merely from this roadmap entry.
+Satisfied on branch `m0_a1` on 2026-09-01 after its Phases A–F, three component checkpoints, and D/E integration passed. The tool remains optional and branch-isolated. Its absence from `main` does not block Milestone 1.
 
 ## Milestone 1 — ordered continuous route-mass ledger
 
-Status: Provisional; Milestone 0 prerequisite satisfied, but not started. Coordination with the separate Milestone 0_a1 branch remains a pre-start workflow decision.
+Status: Ready for Phase A, but not started. Milestone 0 is closed. The user decided that Milestone 1 will branch from current `main`; the optional `m0_a1` visualizer is excluded from that branch basis and may be consulted separately without merging it.
+
+### Start gate and handoff
+
+The next agent must create a new Milestone 1 branch from current `main`, inspect the repository/environment and applicable feedback, and begin with the mandatory Phase A proposal under `temp_content/milestone_1_<short_name>/`. No Milestone 1 implementation is authorized until Phases A–C complete and the user explicitly opens the first approved D_i pass.
 
 ### Goal and shared architecture gate
 

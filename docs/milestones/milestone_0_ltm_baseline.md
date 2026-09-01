@@ -804,4 +804,4 @@ Those files remain the discussion/audit archive. `AGENTS.md`, `PROJECT_CONTEXT.m
 
 The user explicitly closed Milestone 0 on 2026-08-31 after accepting all seven component checkpoints and the complete D_integration/E_integration evidence. The durable integration report is under `reports/milestone_0_ltm_baseline/integration_e_20260831/`; the Phase F decision record is `temp_content/milestone_0_ltm_baseline/phase_F_closure.md`.
 
-Milestone 0_a1 is a proposed headless-visualizer add-on and is not part of this scientific closure. It has not entered Phase A. Do not implement it, install Matplotlib, create its development branch, or begin Milestone 1 until explicitly requested under the applicable workflow.
+Milestone 0_a1 was subsequently developed and closed on separate branch `m0_a1` on 2026-09-01. It remains outside this scientific closure and intentionally unmerged into `main`. The user later selected current `main`, without the optional visualizer, as the branch basis for Milestone 1. Milestone 1 still requires its own Phase A–C approval before implementation.
