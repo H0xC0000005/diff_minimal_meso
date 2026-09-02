@@ -2,7 +2,7 @@
 
 ## Project status
 
-Status: Milestone 0 closed on `main` on 2026-08-31 after all seven component checkpoints and D/E integration passed. Optional Milestone 0_a1 closed separately on renamed branch `m0_a1_visualizer` on 2026-09-01 and remains intentionally unmerged. Milestone 1 Component 1.1 D1/E1 is complete on branch `m1_ledger` and awaiting its user checkpoint; Component 1.2 has not started.
+Status: Milestone 0 closed on `main` on 2026-08-31 after all seven component checkpoints and D/E integration passed. Optional Milestone 0_a1 closed separately on renamed branch `m0_a1_visualizer` on 2026-09-01 and remains intentionally unmerged. On branch `m1_ledger`, Milestone 1 Components 1.1 through 1.5 are accepted and closed; Component 1.6 D6/E6 passes and awaits its user checkpoint. Integration has not started.
 
 The repository follows the milestone sequence in `PLANS.md`. Closed Milestone 0 is governed by `docs/milestones/milestone_0_ltm_baseline.md`. Milestone 1 must preserve that accepted macro baseline and follow the full gated workflow before implementation. The optional visualizer is available on branch `m0_a1_visualizer` for reference but is not part of the Milestone 1 branch basis.
 

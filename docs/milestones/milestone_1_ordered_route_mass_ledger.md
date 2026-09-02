@@ -4,7 +4,7 @@ Status: **Approved**
 
 Approval date: 2026-09-02
 
-Phase: Component 1.1 D1/E1 complete; awaiting user checkpoint
+Phase: Component 1.6 D6/E6 complete; awaiting user checkpoint
 
 Branch: `m1_ledger`, based on `main` commit `c6a2d75`
 
@@ -28,7 +28,7 @@ Starting state:
 - The accepted macro `NetworkDefinition`, `Scenario`, `simulation_step`, `RolloutResult`, LTM, movement, node, signal, objective, and gradient behavior remain unchanged.
 - Macro arrivals are interval-boundary masses: `arrivals[k]` is added to source availability at `t_k` and may be admitted during `[t_k,t_{k+1}]`.
 - The optional visualizer remains isolated on `m0_a1_visualizer` and is not a dependency.
-- Authoritative environment: `/home/zpz/miniconda3/envs/diff_minimal_meso`, Python 3.12.13, PyTorch 2.5.1, pytest 9.0.3.
+- Authoritative environment: `/home/zpz/miniconda3/envs/diff_minimal_meso`, Python 3.12.13, PyTorch 2.5.1 with CUDA 12.4 build, pytest 9.0.3. E2 reverified the executable target, runtime imports, Conda metadata, and unchanged environment history after one anomalous isolated command result; the E2 validation record documents that investigation.
 
 ### In scope
 
@@ -564,4 +564,4 @@ No scientific or engineering ambiguity remains that blocks implementation. Exact
 
 Phase C is complete and this file is authoritative for the Milestone 1 implementation pass.
 
-The next allowed action is Component 1.1 Phase D1 followed immediately by E1, **only after explicit user authorization**. Stop after the Component 1.1 evidence for its user checkpoint. Do not begin Component 1.2 automatically.
+Components 1.1 through 1.5 are user-accepted. Component 1.6 has completed its authorized D6/E6 pass and awaits its checkpoint. The next allowed action is user review of E6. D_integration/E_integration requires explicit acceptance and authorization; do not begin it automatically.
