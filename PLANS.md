@@ -2,7 +2,7 @@
 
 ## Current project status
 
-Status: Milestone 0 closed on `main` on 2026-08-31 after all component and integration gates passed. Optional Milestone 0_a1 closed on its separate branch on 2026-09-01 and remains unmerged. Milestone 1 has not started and is ready for Phase A on a new branch from current `main`.
+Status: Milestone 0 closed on `main` on 2026-08-31 after all component and integration gates passed. Optional Milestone 0_a1 closed on renamed branch `m0_a1_visualizer` on 2026-09-01 and remains unmerged. Milestone 1 Phase C is complete on branch `m1_ledger`; its approved component-first plan is `docs/milestones/milestone_1_ordered_route_mass_ledger.md`. Implementation has not started.
 
 The methodology and high-level implementation backbone are defined in `PROJECT_CONTEXT.md`. The milestone sequence below is provisional at project start. Codex must enter Phase A for only the next milestone requested by the user and must not implement it until Phase C approval.
 
@@ -12,8 +12,8 @@ A **milestone** is a scientifically meaningful capability or validation result.
 
 A **phase** is the human-in-the-loop state inside a milestone. Phases A–C are shared system-level planning gates. For implementation-dominant milestones, approved components are then closed incrementally:
 
-- Phase A: inspect and propose the subsystem as a whole;
-- Phase B: discuss and revise architecture, interfaces, semantics, component order, and tests;
+- Phase A: inspect and propose the subsystem as a whole, including a complete Type 2 milestone-global versus Type 1 component-local question inventory;
+- Phase B: confirm question ownership, resolve the milestone-global backbone first, then discuss component-local architecture, interfaces, semantics, component order, and tests serially;
 - Phase C: freeze the approved system plan;
 - Phase D_i: implement component `i`;
 - Phase E_i: validate component `i` immediately;
@@ -23,6 +23,8 @@ A **phase** is the human-in-the-loop state inside a milestone. Phases A–C are 
 - Phase F: user review and milestone closure.
 
 This is one milestone, not a collection of component milestones. Component acceptance is strong but revisable if later integration exposes a real interface/coupling defect. Scientific-experiment milestones may use a single D/E pair when component cycling would be artificial.
+
+Repository-wide planning uses the question-ownership taxonomy defined in `AGENTS.md`: Type 2 milestone-global contracts close before dependent Type 1 component-local choices; mixed questions are split explicitly. Closed global contracts become inputs to component studies. A local conflict reopens the smallest affected global contract rather than being hidden in component implementation or validation.
 
 For Milestones 0 and 1, the formal Phase-C plan should be **component-first**: after a short milestone-wide architecture/interface preamble, keep each component's functionality, I/O, source/reference basis, differentiability semantics, implementation, tests, visual diagnostics if useful, and checkpoint criteria together in the same component section.
 
@@ -128,15 +130,15 @@ Provide a small deterministic Matplotlib-based, headless visualization layer ove
 
 ### Gate
 
-Satisfied on branch `m0_a1` on 2026-09-01 after its Phases A–F, three component checkpoints, and D/E integration passed. The tool remains optional and branch-isolated. Its absence from `main` does not block Milestone 1.
+Satisfied on branch `m0_a1_visualizer` on 2026-09-01 after its Phases A–F, three component checkpoints, and D/E integration passed. The tool remains optional and branch-isolated. Its absence from `main` does not block Milestone 1.
 
 ## Milestone 1 — ordered continuous route-mass ledger
 
-Status: Ready for Phase A, but not started. Milestone 0 is closed. The user decided that Milestone 1 will branch from current `main`; the optional `m0_a1` visualizer is excluded from that branch basis and may be consulted separately without merging it.
+Status: Phase C complete and plan approved on branch `m1_ledger` on 2026-09-02. Authoritative implementation plan: `docs/milestones/milestone_1_ordered_route_mass_ledger.md`. Implementation has not started; Component 1.1 D1/E1 requires explicit user authorization. The optional `m0_a1_visualizer` branch remains excluded from the Milestone 1 basis.
 
 ### Start gate and handoff
 
-The next agent must create a new Milestone 1 branch from current `main`, inspect the repository/environment and applicable feedback, and begin with the mandatory Phase A proposal under `temp_content/milestone_1_<short_name>/`. No Milestone 1 implementation is authorized until Phases A–C complete and the user explicitly opens the first approved D_i pass.
+Phases A–C are complete. The Phase A/B archives remain under `temp_content/milestone_1_ordered_route_mass_ledger/`; the approved Phase C plan governs implementation. No Milestone 1 implementation is authorized until the user explicitly opens the first approved D_i pass.
 
 ### Goal and shared architecture gate
 

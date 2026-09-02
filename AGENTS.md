@@ -82,6 +82,34 @@ When presenting open questions for user decision, the default format for each qu
 
 Use this expanded format whenever the user asks to list or review open questions, unless the user explicitly requests a shorter inventory. Keep recommendations provisional until the user approves them, and preserve any decision dependencies between questions.
 
+### Project-wide open-question classification
+
+Every Phase A proposal for an implementation-dominant or multi-component scientific milestone must inventory unresolved questions and classify their decision ownership before Phase B:
+
+- **Type 1 — component-local:** one component can resolve the question without changing another component's scientific meaning, shared interface, or milestone acceptance contract.
+- **Type 2 — milestone-global:** the question spans components, establishes a shared scientific/API/data-flow/differentiability contract, or governs milestone-wide reproducibility, comparison fairness, or validation.
+- **Mixed:** split the question into an explicit Type 2 global contract and one or more Type 1 local transcription or evidence details. Do not leave a mixed question under a single ambiguous owner.
+
+The Phase A proposal must include, where applicable:
+
+1. a complete question inventory with stable IDs, classification, owner, and dependencies;
+2. a milestone-global backbone set such as `G1`, `G2`, and so on;
+3. component-local sets such as `C<N>.<i>-Q<j>` assigned to the applicable component;
+4. explicit mixed-question splits;
+5. a discussion/closure order in which global contracts close before dependent component questions;
+6. reopen conditions identifying which smallest global contract must be reconsidered if component work exposes a conflict.
+
+Phase B proceeds **global-first, then component-serial** by default:
+
+1. confirm the inventory, classification, ownership, and dependencies;
+2. discuss and close the milestone-global backbone;
+3. consolidate those decisions in the milestone's Phase B revision record;
+4. treat closed global contracts as inputs not to reopen inside component discussions;
+5. discuss component-local questions in dependency order and record them in component-specific studies or dialogue sections;
+6. perform a final global/component consistency audit before Phase C.
+
+A component may not silently change a closed global contract through a local API, adapter, tolerance, fallback, reference case, or implementation convention. If evidence requires such a change, explicitly reopen the smallest affected global decision and its dependent component questions.
+
 For each active milestone, create:
 
 `temp_content/milestone_<N>_<short_name>/`
@@ -120,6 +148,7 @@ For the current milestone:
    - differentiability path and structural/non-differentiated metadata;
    - tests, numerical tolerances, commands, and acceptance criteria;
    - unresolved scientific and engineering choices;
+   - the project-wide Type 1/Type 2/mixed question inventory, ownership, dependencies, and global-first discussion order;
    - risks and expected consequences of each unresolved option.
 6. Stop after the proposal. Do not implement.
 
@@ -130,7 +159,9 @@ For the current milestone:
 3. Answer questions and revise the proposal without starting implementation.
 4. Do not silently resolve choices that can change model fidelity, gradient semantics, experimental meaning, or comparison fairness.
 5. When alternatives exist, present the smallest viable options and their scientific/engineering consequences.
-6. Continue until scope, semantics, validation, acceptance criteria, and stop conditions are explicit.
+6. Resolve the confirmed milestone-global question set before dependent component-local questions. Consolidate the accepted global contracts as fixed inputs to serial component discussion.
+7. If a component discussion conflicts with a closed global contract, reopen the smallest affected global decision explicitly rather than adapting locally.
+8. Continue until global and component scope, semantics, validation, acceptance criteria, dependencies, and stop conditions are explicit and mutually consistent.
 
 ### Phase C — freeze the approved milestone plan
 

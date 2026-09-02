@@ -2,9 +2,9 @@
 
 ## Project status
 
-Status: Milestone 0 closed on `main` on 2026-08-31 after all seven component checkpoints and D/E integration passed. Optional Milestone 0_a1 closed separately on branch `m0_a1` on 2026-09-01 and remains intentionally unmerged. Milestone 1 has not started; its next allowed action is Phase A planning on a new branch created from current `main`.
+Status: Milestone 0 closed on `main` on 2026-08-31 after all seven component checkpoints and D/E integration passed. Optional Milestone 0_a1 closed separately on renamed branch `m0_a1_visualizer` on 2026-09-01 and remains intentionally unmerged. Milestone 1 Phase C is complete on branch `m1_ledger`; its authoritative plan is `docs/milestones/milestone_1_ordered_route_mass_ledger.md`. Implementation has not started.
 
-The repository follows the milestone sequence in `PLANS.md`. Closed Milestone 0 is governed by `docs/milestones/milestone_0_ltm_baseline.md`. Milestone 1 must preserve that accepted macro baseline and follow the full gated workflow before implementation. The optional visualizer is available on branch `m0_a1` for reference but is not part of the Milestone 1 branch basis.
+The repository follows the milestone sequence in `PLANS.md`. Closed Milestone 0 is governed by `docs/milestones/milestone_0_ltm_baseline.md`. Milestone 1 must preserve that accepted macro baseline and follow the full gated workflow before implementation. The optional visualizer is available on branch `m0_a1_visualizer` for reference but is not part of the Milestone 1 branch basis.
 
 ## 1. Research motivation
 
