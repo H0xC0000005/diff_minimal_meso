@@ -2,7 +2,7 @@
 
 ## Current project status
 
-Status: Milestone 0 closed on `main` on 2026-08-31 after all component and integration gates passed. Optional Milestone 0_a1 closed on renamed branch `m0_a1_visualizer` on 2026-09-01 and remains unmerged. Milestone 1 Phase C is complete on branch `m1_ledger`; its approved component-first plan is `docs/milestones/milestone_1_ordered_route_mass_ledger.md`. Implementation has not started.
+Status: Milestone 0 closed on `main` on 2026-08-31 after all component and integration gates passed. Optional Milestone 0_a1 closed on renamed branch `m0_a1_visualizer` on 2026-09-01 and remains unmerged. Milestone 1 Component 1.1 D1/E1 is complete on branch `m1_ledger` and awaiting its user checkpoint; Component 1.2 has not started.
 
 The methodology and high-level implementation backbone are defined in `PROJECT_CONTEXT.md`. The milestone sequence below is provisional at project start. Codex must enter Phase A for only the next milestone requested by the user and must not implement it until Phase C approval.
 
@@ -134,7 +134,7 @@ Satisfied on branch `m0_a1_visualizer` on 2026-09-01 after its Phases A–F, thr
 
 ## Milestone 1 — ordered continuous route-mass ledger
 
-Status: Phase C complete and plan approved on branch `m1_ledger` on 2026-09-02. Authoritative implementation plan: `docs/milestones/milestone_1_ordered_route_mass_ledger.md`. Implementation has not started; Component 1.1 D1/E1 requires explicit user authorization. The optional `m0_a1_visualizer` branch remains excluded from the Milestone 1 basis.
+Status: Component 1.1 D1/E1 complete on branch `m1_ledger` on 2026-09-02 and awaiting user acceptance. Its focused tests and the full regression suite pass. Component 1.2 has not started. Authoritative plan: `docs/milestones/milestone_1_ordered_route_mass_ledger.md`.
 
 ### Start gate and handoff
 

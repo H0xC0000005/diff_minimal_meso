@@ -4,7 +4,7 @@ Status: **Approved**
 
 Approval date: 2026-09-02
 
-Phase: Phase C complete; implementation not started
+Phase: Component 1.1 D1/E1 complete; awaiting user checkpoint
 
 Branch: `m1_ledger`, based on `main` commit `c6a2d75`
 
