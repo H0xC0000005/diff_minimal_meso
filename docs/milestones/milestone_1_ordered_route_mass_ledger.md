@@ -1,10 +1,10 @@
 # Milestone 1 — ordered continuous route-mass ledger
 
-Status: **Approved**
+Status: **Closed**
 
 Approval date: 2026-09-02
 
-Phase: Phase F closure audit; corrective evidence questions open
+Phase: Phase F closed on 2026-09-03
 
 Branch: `m1_ledger`, based on `main` commit `c6a2d75`
 
@@ -560,8 +560,58 @@ No contradiction remains between this plan, `AGENTS.md`, fixed `PROJECT_CONTEXT.
 
 No scientific or engineering ambiguity remains that blocks implementation. Exact class/function names may be adjusted mechanically during a component pass only when responsibilities, fields, units, equations, and acceptance behavior remain identical; otherwise reopen the plan.
 
-## 16. Approval and next allowed action
+## 16. Phase F corrective D/E amendment
+
+The Phase F closure audit found no contradiction in the accepted traffic or differentiation semantics, but identified five narrower implementation/evidence gaps. The user selected FQ1 Candidate A, FQ2 Candidate A, revised FQ3 Candidate A, delegated FQ4 to Codex (resolved as revised Candidate A), and selected FQ5 Candidate A. The detailed questions, alternatives, decisions, and qualifications remain archived in `temp_content/milestone_1_ordered_route_mass_ledger/phase_F_closure_audit_open_questions.md` and `phase_F_dialogue.md`.
+
+This amendment does not reopen G1–G5, change macro authority, alter ledger selection/order/timing arithmetic, modify exact-merge predicates, or change acceptance tolerances. It authorizes only the following bounded add-on sequence once the user explicitly opens it.
+
+### 16.1 Phase D_amend1 — corrective implementation
+
+Component 1.5 work:
+
+- enforce at every boundary the complete generated-by-route identity across source queues, resident ledgers, and completed route mass, together with aggregate completion versus macro sink exit;
+- retain graph-connected actual crossing-time intervals, aligned one-for-one with every positive source, node, and sink `MesoBoundaryTransfer`, strictly as observational evidence; resident eligibility remains the sole persistent behavioral timing authority;
+- add public-boundary shape/state validation only where malformed source/link ledger tuples or completed-route tensors are currently reachable; and
+- do not change transfer selection, accepted macro flow, route progression, ordering, mass, or eligibility arithmetic.
+
+Integration and evidence work:
+
+- retain passive per-step/per-link telemetry from the exact-merge calls made by actual integration orchestration;
+- remove the unused configured FD-step list, serialize the step sizes and stability/pass rows actually returned by the accepted directional-check harness, and record effective tolerances;
+- identify macro exactness as backed by the existing fail-fast equivalence checks; no duplicate macro measurement logic is required;
+- record final artifact paths mechanically where available; and
+- add the approved reachable coupled invalid-case tests plus construction/property evidence for unrepresentable aggregate-arrival disagreement.
+
+Write `temp_content/milestone_1_ordered_route_mass_ledger/phase_D/phase_D_amend1_worklog.md`. D_amend1 implements only this approved amendment and does not run or claim the E_amend1 acceptance gate.
+
+### 16.2 Phase E_amend1 — corrective validation
+
+Validation scope:
+
+- run boundary-by-boundary aggregate and per-route conservation/reference checks;
+- check source/node/sink actual-interval values, alignment, graph connectivity, and unchanged behavior;
+- directly test reachable Component 1.5 and coupled invalid states, and provide construction/property evidence for states made unrepresentable by authoritative constructors;
+- demonstrate at least one successful exact merge through the actual integration orchestration, correct installation of the returned ledger, conservation/order/timing preservation, and observational telemetry with no behavioral authority;
+- pass boundary-wise conservation and all approved coupled invalid-case checks;
+- pass directional autograd/finite-difference validation with the actual executed scan rows recorded;
+- rerun the full test suite and compilation check; and
+- create a new non-overwriting JSON/Markdown evidence artifact, retaining earlier artifacts as immutable superseded provenance.
+
+Write `temp_content/milestone_1_ordered_route_mass_ledger/phase_E/phase_E_amend1_validation.md`; place durable evidence under `reports/milestone_1_ordered_route_mass_ledger/`. Stop after E_amend1 for Phase F user review. Do not close Milestone 1 or start Milestone 2 automatically.
+
+### 16.3 Corrective error and reopen policy
+
+Syntactic, harness, schema-transcription, and implementation-conformance defects may be corrected within the applicable D/E pass and retested. If evidence instead requires changing a scientific semantic, accepted component interface, exact-merge predicate, macro-passivity contract, differentiability boundary, or acceptance threshold, stop and reopen the smallest affected contract under the ordinary milestone workflow.
+
+## 17. Closure and handoff
 
 Phase C is complete and this file is authoritative for the Milestone 1 implementation pass.
 
-Components 1.1 through 1.6 are user-accepted and the initial D/E integration tests pass. Phase F subsequently opened five evidence-conformance questions in `temp_content/milestone_1_ordered_route_mass_ledger/phase_F_closure_audit_open_questions.md`. The next allowed action is user decisions on those questions, followed by the approved corrective component/integration pass. Do not close Milestone 1 or start Milestone 2.
+Components 1.1 through 1.6 are user-accepted and the initial D/E integration tests pass. Phase F subsequently resolved all five evidence-conformance questions and approved the bounded amendment in Section 16.
+
+D_amend1 implemented the bounded amendment and E_amend1 passed its focused, full-regression, compilation, and immutable-artifact checks. The worklog is `temp_content/milestone_1_ordered_route_mass_ledger/phase_D/phase_D_amend1_worklog.md`; the validation record is `temp_content/milestone_1_ordered_route_mass_ledger/phase_E/phase_E_amend1_validation.md`; durable v3 evidence is under `reports/milestone_1_ordered_route_mass_ledger/reference_cpu_float64_v3/`.
+
+The user explicitly closed Milestone 1 on 2026-09-03. The durable closure and no-rerun handoff record is `temp_content/milestone_1_ordered_route_mass_ledger/phase_F_closure.md`. It records accepted results, artifact checksums, superseded evidence, uncommitted-worktree state, residual risks, and verification instructions.
+
+Milestone 2 is now eligible to begin at Phase A only. Milestone 1 experiments and tests do not need to be rerun merely to open Milestone 2 planning; verify the recorded artifacts/checksums and rerun only under the conditions stated in the closure record. Do not implement Milestone 2 before its Phase A–C gates are complete.

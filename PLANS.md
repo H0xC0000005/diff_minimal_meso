@@ -2,7 +2,7 @@
 
 ## Current project status
 
-Status: Milestone 0 is closed. Optional Milestone 0_a1 remains isolated on `m0_a1_visualizer`. On branch `m1_ledger`, Milestone 1 Components 1.1–1.6 are accepted and the initial D/E integration tests pass; Phase F has reopened five evidence-conformance questions before closure.
+Status: Milestones 0 and 1 are closed. Milestone 1 closed on 2026-09-03 on branch `m1_ledger`; its accepted state includes documented uncommitted changes because the user requested no closure commit. `reference_cpu_float64_v3` is the authoritative Milestone 1 evidence. Milestone 2 is the next eligible milestone and may enter Phase A only when explicitly opened. Optional Milestone 0_a1 remains isolated on `m0_a1_visualizer`.
 
 The methodology and high-level implementation backbone are defined in `PROJECT_CONTEXT.md`. The milestone sequence below is provisional at project start. Codex must enter Phase A for only the next milestone requested by the user and must not implement it until Phase C approval.
 
@@ -134,7 +134,7 @@ Satisfied on branch `m0_a1_visualizer` on 2026-09-01 after its Phases A–F, thr
 
 ## Milestone 1 — ordered continuous route-mass ledger
 
-Status: Components 1.1–1.6 are accepted on branch `m1_ledger`; initial D/E integration tests pass. Phase F closure audit identified five open evidence-conformance questions requiring user decisions and a corrective pass before closure. Authoritative plan: `docs/milestones/milestone_1_ordered_route_mass_ledger.md`.
+Status: Closed on 2026-09-03 on branch `m1_ledger`. Components 1.1–1.6, initial integration, and corrective D_amend1/E_amend1 passed. The authoritative closure evidence is `reference_cpu_float64_v3`; see `docs/milestones/milestone_1_ordered_route_mass_ledger.md` and `temp_content/milestone_1_ordered_route_mass_ledger/phase_F_closure.md`. No closure commit was created by user instruction.
 
 ### Start gate and handoff
 
@@ -196,7 +196,7 @@ Do not proceed until every required ledger component checkpoint and the final le
 
 ## Milestone 2 — per-lane cumulative-mass interaction zone
 
-Status: Provisional; blocked by Milestone 1 closure.
+Status: Provisional; Milestone 1 dependency satisfied. Ready to enter Phase A when explicitly opened; not yet started.
 
 ### Goal
 

@@ -15,8 +15,15 @@ import sys
 import torch
 
 from diff_minimal_meso.fd import LinkFDParameters
-from diff_minimal_meso.gradients import directional_check, node_active_signature, two_phase_direction
-from diff_minimal_meso.ledger import LedgerEntry, OrderedLedger, merge_adjacent_exact
+from diff_minimal_meso.gradients import (
+    AD_ATOL,
+    AD_RTOL,
+    FD_ATOL,
+    FD_RTOL,
+    directional_check,
+    node_active_signature,
+    two_phase_direction,
+)
 from diff_minimal_meso.ledger_diagnostics import build_ledger_diagnostics, diagnostics_json, diagnostics_markdown
 from diff_minimal_meso.movements import build_movement_map
 from diff_minimal_meso.nodes import NodeKind, NodeParameters
@@ -59,7 +66,13 @@ def ordinary_case(config):
     )
     empty = ((), ())
     arrivals = (
-        ((_block(0, 0.5, -1.0, 0.0),), (_block(1, 0.5, -1.0, 0.0),)),
+        (
+            (
+                _block(0, 0.25, -1.0, -0.5),
+                _block(0, 0.25, -0.5, 0.0),
+            ),
+            (_block(1, 0.5, -1.0, 0.0),),
+        ),
         ((_block(0, 0.125, 0.0, 1.0),), (_block(1, 0.125, 0.0, 1.0),)),
         *([empty] * (config["ordinary_horizon_steps"] - 2)),
     )
@@ -108,21 +121,40 @@ def signal_case(config):
     return scenario, run(point), check
 
 
-def merge_probe(table):
-    s = lambda value: torch.tensor(value, dtype=torch.float64)
-    def e(route, mass, front, tail, position=0):
-        return LedgerEntry(route, position, s(mass), s(front), s(tail))
-    positive = merge_adjacent_exact(OrderedLedger(0, (e(0, 1, 0, 1), e(0, 2, 1, 3)), table))
-    gap = merge_adjacent_exact(OrderedLedger(0, (e(0, 1, 0, 1), e(0, 1, 2, 3)), table))
-    route = merge_adjacent_exact(OrderedLedger(2, (e(0, 1, 0, 1, 1), e(1, 1, 1, 2, 1)), table))
-    rate = merge_adjacent_exact(OrderedLedger(0, (e(0, 1, 0, 1), e(0, 1, 1, 3)), table))
+def merge_telemetry(result):
+    diagnostics = tuple(
+        item
+        for step in result.step_results
+        for item in step.merge_diagnostics
+    )
     return {
-        "exact_merges": positive.diagnostics.exact_merges,
-        "safe_nonmerge_reasons": [gap.diagnostics.safe_nonmerge_reasons[0], route.diagnostics.safe_nonmerge_reasons[0], rate.diagnostics.safe_nonmerge_reasons[0]],
+        "source": "actual_integration_orchestration",
+        "calls": len(diagnostics),
+        "adjacent_pairs_examined": sum(x.adjacent_pairs_examined for x in diagnostics),
+        "exact_merges": sum(x.exact_merges for x in diagnostics),
+        "entries_before": sum(x.before_count for x in diagnostics),
+        "entries_after": sum(x.after_count for x in diagnostics),
+        "safe_nonmerge_reasons": sorted(
+            {reason for x in diagnostics for reason in x.safe_nonmerge_reasons}
+        ),
     }
 
 
-def build_evidence(config, *, config_text, command, timestamp):
+def step_scan(check):
+    return [
+        {
+            "step_size": row.step_size,
+            "feasible": row.feasible,
+            "finite_difference": None if row.finite_difference is None else float(row.finite_difference),
+            "absolute_error": None if row.absolute_error is None else float(row.absolute_error),
+            "stable_regime": row.stable_regime,
+            "passes": row.passes,
+        }
+        for row in check.rows
+    ]
+
+
+def build_evidence(config, *, config_text, command, timestamp, artifact_paths=None):
     torch.manual_seed(config["seed"])
     ordinary_scenario, ordinary = ordinary_case(config)
     signal_scenario_value, signal, check = signal_case(config)
@@ -151,8 +183,10 @@ def build_evidence(config, *, config_text, command, timestamp):
         "command": command, "git": {"commit": git_commit, "dirty": dirty},
         "environment": {"python": platform.python_version(), "pytorch": torch.__version__, "device": "cpu", "dtype": "torch.float64"},
         "config_sha256": hashlib.sha256(config_text.encode()).hexdigest(), "config": config,
-        "ordinary": {"generated_mass": float(generated), "accounted_mass": float(remaining), "completed_by_route": final.completed_route_mass.tolist(), "ordered_snapshot": diagnostics_json(ledger_view), "merge_telemetry": merge_probe(ordinary_scenario.route_table)},
-        "signal": {"objective": float(check.baseline_objective), "reverse_directional": float(check.reverse_directional), "jvp_directional": float(check.jvp_directional), "stable_adjacent_pass_count": check.stable_adjacent_pass_count, "active_signature": node_active_signature(signal.macro_rollout_result)},
+        "artifacts": artifact_paths,
+        "ordinary": {"generated_mass": float(generated), "accounted_mass": float(remaining), "completed_by_route": final.completed_route_mass.tolist(), "ordered_snapshot": diagnostics_json(ledger_view), "merge_telemetry": merge_telemetry(ordinary)},
+        "macro_equivalence": {"exact": True, "basis": "meso_rollout fail-fast torch.equal checks"},
+        "signal": {"objective": float(check.baseline_objective), "reverse_directional": float(check.reverse_directional), "jvp_directional": float(check.jvp_directional), "stable_adjacent_pass_count": check.stable_adjacent_pass_count, "active_signature": node_active_signature(signal.macro_rollout_result), "step_scan": step_scan(check), "effective_tolerances": {"ad_atol": AD_ATOL, "ad_rtol": AD_RTOL, "fd_atol": FD_ATOL, "fd_rtol": FD_RTOL}},
         "acceptance": acceptance,
     }, diagnostics_markdown(ledger_view)
 
@@ -171,7 +205,11 @@ def main():
     output = args.output_root / config["run_id"]
     if output.exists() and any(output.iterdir()):
         raise FileExistsError("refusing to overwrite a nonempty run directory")
-    data, ledger_markdown = build_evidence(config, config_text=text, command=[sys.executable, *sys.argv], timestamp=datetime.now(timezone.utc).isoformat())
+    artifact_paths = {
+        "evidence_json": str(output / "evidence.json"),
+        "summary_markdown": str(output / "summary.md"),
+    }
+    data, ledger_markdown = build_evidence(config, config_text=text, command=[sys.executable, *sys.argv], timestamp=datetime.now(timezone.utc).isoformat(), artifact_paths=artifact_paths)
     output.mkdir(parents=True, exist_ok=True)
     (output / "evidence.json").write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (output / "summary.md").write_text(summary(data, ledger_markdown), encoding="utf-8")

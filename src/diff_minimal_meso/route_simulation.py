@@ -9,6 +9,7 @@ from torch import Tensor
 
 from .ledger import (
     LedgerEntry,
+    MergeDiagnostics,
     OrderedLedger,
     OutboundPackage,
     SelectionEvidence,
@@ -133,6 +134,7 @@ class MesoBoundaryTransfer:
     boundary_index: int
     residual: OrderedLedger
     transferred: tuple[LedgerEntry, ...]
+    actual_intervals_s: tuple[tuple[Tensor, Tensor], ...]
     evidence: SelectionEvidence
 
 
@@ -140,6 +142,7 @@ class MesoBoundaryTransfer:
 class MesoStepResult:
     macro_step_result: StepResult
     transfers: tuple[MesoBoundaryTransfer, ...]
+    merge_diagnostics: tuple[MergeDiagnostics, ...]
     end_state: MesoState
 
 
@@ -173,8 +176,37 @@ def _empty_evidence() -> SelectionEvidence:
     return SelectionEvidence((), (), ())
 
 
-def _assert_state_correspondence(state: MesoState, scenario: MesoScenario) -> None:
+def _generated_route_mass(scenario: MesoScenario, boundary_index: int) -> Tensor:
+    if not 0 <= boundary_index <= scenario.horizon_steps:
+        raise IndexError("boundary_index is out of range")
+    generated = scenario._template().new_zeros((scenario.route_table.route_count,))
+    for row in scenario.route_arrivals[:boundary_index]:
+        for blocks in row:
+            for block in blocks:
+                generated[block.route_index] = generated[block.route_index] + block.mass
+    return generated
+
+
+def _assert_state_correspondence(
+    state: MesoState, scenario: MesoScenario, boundary_index: int
+) -> None:
+    if not isinstance(state, MesoState):
+        raise TypeError("state must be a MesoState")
+    network = scenario.route_table.network
+    if len(state.source_ledgers) != network.source_link_index.numel():
+        raise ValueError("source_ledgers must align with network sources")
+    if len(state.link_ledgers) != network.link_count:
+        raise ValueError("link_ledgers must align with network links")
     macro = state.macro_state
+    completed = state.completed_route_mass
+    if completed.shape != (scenario.route_table.route_count,):
+        raise ValueError("completed_route_mass must align with routes")
+    if completed.dtype != torch.float64:
+        raise TypeError("completed_route_mass must have dtype torch.float64")
+    if completed.device != macro.source_queue.device:
+        raise ValueError("completed_route_mass device must match macro state")
+    torch._assert(torch.isfinite(completed).all(), "completed route mass must be finite")
+    torch._assert((completed >= 0.0).all(), "completed route mass must be nonnegative")
     occupancy = macro.cumulative_links.n_in[-1] - macro.cumulative_links.n_out[-1]
     for link, ledger in enumerate(state.link_ledgers):
         total = ledger.total_mass(like=occupancy[link])
@@ -188,6 +220,24 @@ def _assert_state_correspondence(state: MesoState, scenario: MesoScenario) -> No
             torch.isclose(total, macro.source_queue[source], rtol=1.0e-10, atol=1.0e-12),
             "source ledger/macro queue mismatch",
         )
+    generated = _generated_route_mass(scenario, boundary_index)
+    accounted = completed.clone()
+    for ledger in (*state.source_ledgers, *state.link_ledgers):
+        for entry in ledger.entries:
+            accounted[entry.route_index] = accounted[entry.route_index] + entry.mass
+    torch._assert(
+        torch.isclose(accounted, generated, rtol=1.0e-10, atol=1.0e-12).all(),
+        "generated route mass does not equal queued, resident, and completed mass",
+    )
+    torch._assert(
+        torch.isclose(
+            completed.sum(),
+            macro.cumulative_sink_exit.sum(),
+            rtol=1.0e-10,
+            atol=1.0e-12,
+        ),
+        "completed route mass/macro sink exit mismatch",
+    )
 
 
 def meso_simulation_step(
@@ -199,7 +249,7 @@ def meso_simulation_step(
     table = scenario.route_table
     network = table.network
     macro_scenario = scenario.to_macro_scenario()
-    _assert_state_correspondence(state, scenario)
+    _assert_state_correspondence(state, scenario, step_index)
     next_macro, macro_step = simulation_step(
         state.macro_state, network, macro_scenario, step_index, control
     )
@@ -243,7 +293,12 @@ def meso_simulation_step(
         source_queues[source] = selected.residual
         transfers.append(
             MesoBoundaryTransfer(
-                "source", source, selected.residual, timing.entries, selected.evidence
+                "source",
+                source,
+                selected.residual,
+                timing.entries,
+                timing.actual_intervals_s,
+                selected.evidence,
             )
         )
 
@@ -291,7 +346,12 @@ def meso_simulation_step(
                 )
             transfers.append(
                 MesoBoundaryTransfer(
-                    "node", input_link, result.residual, result.transferred, result.evidence
+                    "node",
+                    input_link,
+                    result.residual,
+                    result.transferred,
+                    result.actual_intervals_s,
+                    result.evidence,
                 )
             )
         for output_local, packages in enumerate(packages_by_output):
@@ -312,24 +372,41 @@ def meso_simulation_step(
         progression = progress_transferred_entries(selected.transferred.entries, table)
         if progression.progressed:
             raise ValueError("sink transfer contains a nonterminal route")
+        timing = assign_discharge_times(
+            progression.completed,
+            outflow,
+            interval_front,
+            interval_tail,
+            outflow.new_zeros(()),
+        )
         link_residuals[link] = selected.residual
         for item in progression.completed:
             completed[item.route_index] = completed[item.route_index] + item.mass
         transfers.append(
             MesoBoundaryTransfer(
-                "sink", sink, selected.residual, progression.completed, selected.evidence
+                "sink",
+                sink,
+                selected.residual,
+                progression.completed,
+                timing.actual_intervals_s,
+                selected.evidence,
             )
         )
 
     next_ledgers: list[OrderedLedger] = []
+    merge_diagnostics: list[MergeDiagnostics] = []
     for link, residual in enumerate(link_residuals):
         combined = OrderedLedger(link, residual.entries + tuple(additions[link]), table)
-        next_ledgers.append(merge_adjacent_exact(combined).ledger)
+        merge_result = merge_adjacent_exact(combined)
+        next_ledgers.append(merge_result.ledger)
+        merge_diagnostics.append(merge_result.diagnostics)
     next_state = MesoState(
         next_macro, tuple(source_queues), tuple(next_ledgers), completed
     )
-    _assert_state_correspondence(next_state, scenario)
-    result = MesoStepResult(macro_step, tuple(transfers), next_state)
+    _assert_state_correspondence(next_state, scenario, step_index + 1)
+    result = MesoStepResult(
+        macro_step, tuple(transfers), tuple(merge_diagnostics), next_state
+    )
     return next_state, result
 
 

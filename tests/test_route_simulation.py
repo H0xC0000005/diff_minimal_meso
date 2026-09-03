@@ -4,7 +4,7 @@ import pytest
 import torch
 
 from diff_minimal_meso.fd import LinkFDParameters
-from diff_minimal_meso.ledger import OrderedLedger
+from diff_minimal_meso.ledger import LedgerEntry, OrderedLedger
 from diff_minimal_meso.movements import build_movement_map
 from diff_minimal_meso.nodes import NodeKind, NodeParameters
 from diff_minimal_meso.route_simulation import (
@@ -95,6 +95,11 @@ def test_blocked_source_uses_actual_admission_not_generation_timing() -> None:
     assert float(admitted_entry.eligible_front_s) == 2.0
     assert float(admitted_entry.eligible_tail_s) == 3.0
     assert float(result.ledger_history[1].source_ledgers[0].total_mass()) == 0.125
+    transfer = next(
+        item for item in result.step_results[1].transfers if item.kind == "source"
+    )
+    assert len(transfer.actual_intervals_s) == len(transfer.transferred) == 1
+    assert [float(value) for value in transfer.actual_intervals_s[0]] == [1.0, 2.0]
 
 
 def test_one_link_fractional_pulse_matches_macro_and_completes_route() -> None:
@@ -138,6 +143,14 @@ def test_two_link_chain_has_no_same_step_cascade_and_progresses_once() -> None:
     assert result.ledger_history[2].link_ledgers[0].entries == ()
     assert result.ledger_history[2].link_ledgers[1].entries[0].route_position == 1
     assert float(result.ledger_history[-1].completed_route_mass[0]) == 0.125
+    node_transfer = next(
+        item for item in result.step_results[1].transfers if item.kind == "node"
+    )
+    sink_transfer = next(
+        item for item in result.step_results[2].transfers if item.kind == "sink"
+    )
+    assert [float(value) for value in node_transfer.actual_intervals_s[0]] == [1.0, 2.0]
+    assert [float(value) for value in sink_transfer.actual_intervals_s[0]] == [2.0, 3.0]
 
 
 def test_coupled_rollout_is_deterministic_and_link_relabeling_maps_exactly() -> None:
@@ -242,6 +255,160 @@ def test_invalid_bucket_route_source_and_state_mismatch_reject() -> None:
     )
     with pytest.raises(AssertionError, match="occupancy mismatch"):
         meso_simulation_step(corrupted, scenario, 1)
+
+
+def test_boundary_route_conservation_rejects_offsetting_completion_swap() -> None:
+    network = NetworkDefinition(
+        (link(),), (), (), (), torch.tensor([0]), torch.tensor([0])
+    )
+    table = build_route_table(
+        network, (RouteDefinition("A", (0,)), RouteDefinition("B", (0,)))
+    )
+    scenario = MesoScenario(
+        1.0,
+        3,
+        (
+            ((block(0, 0.2, -1.0, -0.5), block(1, 0.3, -0.5, 0.0)),),
+            ((),),
+            ((),),
+        ),
+        table,
+    )
+    state = initialize_meso_state(scenario)
+    state, _ = meso_simulation_step(state, scenario, 0)
+    state, _ = meso_simulation_step(state, scenario, 1)
+    corrupted = MesoState(
+        state.macro_state,
+        state.source_ledgers,
+        state.link_ledgers,
+        scalar(1.0).new_tensor([0.25, 0.25]),
+    )
+    with pytest.raises(AssertionError, match="generated route mass"):
+        meso_simulation_step(corrupted, scenario, 2)
+
+
+def test_public_coupled_state_shape_mismatch_rejects_early() -> None:
+    _, table = one_link_setup()
+    scenario = MesoScenario(1.0, 1, (((block(0, 0.1, -1.0, 0.0),),),), table)
+    state = initialize_meso_state(scenario)
+    malformed_sources = MesoState(
+        state.macro_state, (), state.link_ledgers, state.completed_route_mass
+    )
+    with pytest.raises(ValueError, match="source_ledgers"):
+        meso_simulation_step(malformed_sources, scenario, 0)
+    malformed_completed = MesoState(
+        state.macro_state,
+        state.source_ledgers,
+        state.link_ledgers,
+        scalar(0.0).new_zeros((2,)),
+    )
+    with pytest.raises(ValueError, match="completed_route_mass"):
+        meso_simulation_step(malformed_completed, scenario, 0)
+
+
+def test_wrong_source_and_wrong_sink_are_rejected_by_construction() -> None:
+    network = NetworkDefinition(
+        (link(), link()), (), (), (), torch.tensor([0, 1]), torch.tensor([0, 1])
+    )
+    table = build_route_table(
+        network, (RouteDefinition("A", (0,)), RouteDefinition("B", (1,)))
+    )
+    with pytest.raises(ValueError, match="source link"):
+        MesoScenario(
+            1.0,
+            1,
+            (((), (block(0, 0.1, -1.0, 0.0),)),),
+            table,
+        )
+    with pytest.raises(ValueError, match="ledger owner"):
+        OrderedLedger(
+            1,
+            (
+                LedgerEntry(0, 0, scalar(0.1), scalar(0.0), scalar(1.0)),
+            ),
+            table,
+        )
+
+
+def test_coupled_incompatible_movement_composition_rejects() -> None:
+    movement_map, node = ordinary_node(
+        [0], [1, 2], [(0, 1, 0.5), (0, 2, 0.5)]
+    )
+    network = NetworkDefinition(
+        (link(), link(), link()),
+        (movement_map,),
+        (node,),
+        (None,),
+        torch.tensor([0]),
+        torch.tensor([1, 2]),
+    )
+    table = build_route_table(
+        network, (RouteDefinition("only-present", (0, 1)), RouteDefinition("absent", (0, 2)))
+    )
+    scenario = MesoScenario(
+        1.0,
+        2,
+        (((block(0, 1.0, -1.0, 0.0),),), ((),)),
+        table,
+    )
+    state = initialize_meso_state(scenario)
+    state, _ = meso_simulation_step(state, scenario, 0)
+    with pytest.raises(AssertionError, match="cannot be realized"):
+        meso_simulation_step(state, scenario, 1)
+
+
+def test_actual_transfer_interval_remains_graph_connected() -> None:
+    network = NetworkDefinition(
+        (link(capacity=2.0),), (), (), (), torch.tensor([0]), torch.tensor([0])
+    )
+    table = build_route_table(network, (RouteDefinition("R", (0,)),))
+    first_mass = scalar(0.25, requires_grad=True)
+    second_mass = scalar(0.75, requires_grad=True)
+    scenario = MesoScenario(
+        1.0,
+        1,
+        (((
+            SourceRouteBlock(0, first_mass, scalar(-1.0), scalar(-0.5)),
+            SourceRouteBlock(0, second_mass, scalar(-0.5), scalar(0.0)),
+        ),),),
+        table,
+    )
+    _, result = meso_simulation_step(initialize_meso_state(scenario), scenario, 0)
+    transfer = next(item for item in result.transfers if item.kind == "source")
+    split_actual_time = transfer.actual_intervals_s[0][1]
+    assert split_actual_time.requires_grad
+    gradients = torch.autograd.grad(split_actual_time, (first_mass, second_mass))
+    torch.testing.assert_close(gradients[0], scalar(0.75), rtol=1e-10, atol=1e-12)
+    torch.testing.assert_close(gradients[1], scalar(-0.25), rtol=1e-10, atol=1e-12)
+
+
+def test_actual_step_merge_telemetry_matches_installed_ledger() -> None:
+    _, table = one_link_setup()
+    scenario = MesoScenario(
+        1.0,
+        1,
+        (((
+            block(0, 0.25, -1.0, -0.5),
+            block(0, 0.25, -0.5, 0.0),
+        ),),),
+        table,
+    )
+    state, result = meso_simulation_step(
+        initialize_meso_state(scenario), scenario, 0
+    )
+    diagnostic = result.merge_diagnostics[0]
+    assert diagnostic.before_count == 2
+    assert diagnostic.after_count == 1
+    assert diagnostic.exact_merges == 1
+    assert len(state.link_ledgers[0].entries) == 1
+    merged = state.link_ledgers[0].entries[0]
+    torch.testing.assert_close(merged.mass, scalar(0.5), rtol=1e-10, atol=1e-12)
+    torch.testing.assert_close(
+        merged.eligible_front_s, scalar(1.0), rtol=1e-10, atol=1e-12
+    )
+    torch.testing.assert_close(
+        merged.eligible_tail_s, scalar(2.0), rtol=1e-10, atol=1e-12
+    )
 
 
 def test_signal_gradient_reverse_jvp_and_fd_match_unchanged_macro_path() -> None:

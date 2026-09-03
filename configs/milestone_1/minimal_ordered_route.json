@@ -1,11 +1,10 @@
 {
-  "schema_version": "milestone-1-integration-v1",
-  "run_id": "reference_cpu_float64_v2",
+  "schema_version": "milestone-1-integration-v2",
+  "run_id": "reference_cpu_float64_v3",
   "dt_s": 1.0,
   "ordinary_horizon_steps": 7,
   "signal_horizon_steps": 4,
   "signal_green": [0.4, 0.6],
-  "fd_step_sizes": [0.0001, 0.00005, 0.000025, 0.0000125, 0.00000625, 0.000003125],
   "seed": 0,
   "rtol": 1e-10,
   "atol": 1e-12
