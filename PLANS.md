@@ -2,7 +2,7 @@
 
 ## Current project status
 
-Status: Milestones 0 and 1 are closed. Milestone 1 closed on 2026-09-03 on branch `m1_ledger`; its accepted state includes documented uncommitted changes because the user requested no closure commit. `reference_cpu_float64_v3` is the authoritative Milestone 1 evidence. Milestone 2 is the next eligible milestone and may enter Phase A only when explicitly opened. Optional Milestone 0_a1 remains isolated on `m0_a1_visualizer`.
+Status: Milestones 0 and 1 are closed. Milestone 1 branch `m1_ledger` was fast-forward merged into `main` at `309cba6` on 2026-09-03 and remains retained; `reference_cpu_float64_v3` is its authoritative evidence. Milestone 2 is the next eligible milestone. When explicitly opened, branch from this merged `main` as `m2_interaction_zone` and enter Phase A only. Optional Milestone 0_a1 remains isolated on `m0_a1_visualizer`.
 
 The methodology and high-level implementation backbone are defined in `PROJECT_CONTEXT.md`. The milestone sequence below is provisional at project start. Codex must enter Phase A for only the next milestone requested by the user and must not implement it until Phase C approval.
 
@@ -134,7 +134,7 @@ Satisfied on branch `m0_a1_visualizer` on 2026-09-01 after its Phases A–F, thr
 
 ## Milestone 1 — ordered continuous route-mass ledger
 
-Status: Closed on 2026-09-03 on branch `m1_ledger`. Components 1.1–1.6, initial integration, and corrective D_amend1/E_amend1 passed. The authoritative closure evidence is `reference_cpu_float64_v3`; see `docs/milestones/milestone_1_ordered_route_mass_ledger.md` and `temp_content/milestone_1_ordered_route_mass_ledger/phase_F_closure.md`. No closure commit was created by user instruction.
+Status: Closed on 2026-09-03 on branch `m1_ledger` and fast-forward merged into `main` at commit `309cba6`; the source branch is retained. Components 1.1–1.6, initial integration, and corrective D_amend1/E_amend1 passed. The authoritative closure evidence is `reference_cpu_float64_v3`; see `docs/milestones/milestone_1_ordered_route_mass_ledger.md` and `temp_content/milestone_1_ordered_route_mass_ledger/phase_F_closure.md`.
 
 ### Start gate and handoff
 
@@ -196,7 +196,7 @@ Do not proceed until every required ledger component checkpoint and the final le
 
 ## Milestone 2 — per-lane cumulative-mass interaction zone
 
-Status: Provisional; Milestone 1 dependency satisfied. Ready to enter Phase A when explicitly opened; not yet started.
+Status: Provisional; Milestone 1 dependency satisfied. When explicitly opened, create branch `m2_interaction_zone` from merged `main`, remain on that branch, and enter Phase A. Milestone 2 has not started.
 
 ### Goal
 

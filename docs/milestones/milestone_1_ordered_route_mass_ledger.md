@@ -6,7 +6,7 @@ Approval date: 2026-09-02
 
 Phase: Phase F closed on 2026-09-03
 
-Branch: `m1_ledger`, based on `main` commit `c6a2d75`
+Branch: developed and closed on `m1_ledger`, based on `main` commit `c6a2d75`; fast-forward merged into `main` at `309cba6` on 2026-09-03; `m1_ledger` retained
 
 ## 1. Scientific purpose
 
@@ -614,4 +614,4 @@ D_amend1 implemented the bounded amendment and E_amend1 passed its focused, full
 
 The user explicitly closed Milestone 1 on 2026-09-03. The durable closure and no-rerun handoff record is `temp_content/milestone_1_ordered_route_mass_ledger/phase_F_closure.md`. It records accepted results, artifact checksums, superseded evidence, uncommitted-worktree state, residual risks, and verification instructions.
 
-Milestone 2 is now eligible to begin at Phase A only. Milestone 1 experiments and tests do not need to be rerun merely to open Milestone 2 planning; verify the recorded artifacts/checksums and rerun only under the conditions stated in the closure record. Do not implement Milestone 2 before its Phase A–C gates are complete.
+Milestone 2 is now eligible to begin at Phase A only. When explicitly opened, create `m2_interaction_zone` from merged `main` at or after `309cba6` and switch to that branch. Milestone 1 experiments and tests do not need to be rerun merely to open Milestone 2 planning; verify the recorded artifacts/checksums and rerun only under the conditions stated in the closure record. Do not implement Milestone 2 before its Phase A–C gates are complete.

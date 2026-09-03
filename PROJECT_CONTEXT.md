@@ -2,7 +2,7 @@
 
 ## Project status
 
-Status: Milestones 0 and 1 are closed. Milestone 1 closed on 2026-09-03 on branch `m1_ledger` after Components 1.1–1.6, initial integration, and corrective D_amend1/E_amend1 passed; `reference_cpu_float64_v3` is its authoritative evidence. No commit was created at closure by user instruction, so the accepted state includes the current uncommitted worktree documented in `temp_content/milestone_1_ordered_route_mass_ledger/phase_F_closure.md`. Milestone 2 is the next eligible milestone and may begin at Phase A only. Optional Milestone 0_a1 remains isolated on `m0_a1_visualizer`.
+Status: Milestones 0 and 1 are closed. Milestone 1 closed on branch `m1_ledger` and was fast-forward merged into `main` at commit `309cba6` on 2026-09-03; the `m1_ledger` branch is retained. `reference_cpu_float64_v3` is its authoritative evidence. Milestone 2 is the next eligible milestone: when explicitly opened, create `m2_interaction_zone` from this merged `main` and begin Phase A only. Optional Milestone 0_a1 remains isolated on `m0_a1_visualizer`.
 
 The repository follows the milestone sequence in `PLANS.md`. Closed Milestones 0 and 1 are governed by `docs/milestones/milestone_0_ltm_baseline.md` and `docs/milestones/milestone_1_ordered_route_mass_ledger.md`. Milestone 2 must preserve both accepted dependencies and follow the full gated workflow before implementation. The optional visualizer is available on branch `m0_a1_visualizer` for reference but is not part of the mainline milestone basis.
 
