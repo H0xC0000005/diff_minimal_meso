@@ -4,7 +4,7 @@ Status: **Approved**
 
 Approval date: 2026-09-02
 
-Phase: Component 1.6 D6/E6 complete; awaiting user checkpoint
+Phase: Phase F closure audit; corrective evidence questions open
 
 Branch: `m1_ledger`, based on `main` commit `c6a2d75`
 
@@ -564,4 +564,4 @@ No scientific or engineering ambiguity remains that blocks implementation. Exact
 
 Phase C is complete and this file is authoritative for the Milestone 1 implementation pass.
 
-Components 1.1 through 1.5 are user-accepted. Component 1.6 has completed its authorized D6/E6 pass and awaits its checkpoint. The next allowed action is user review of E6. D_integration/E_integration requires explicit acceptance and authorization; do not begin it automatically.
+Components 1.1 through 1.6 are user-accepted and the initial D/E integration tests pass. Phase F subsequently opened five evidence-conformance questions in `temp_content/milestone_1_ordered_route_mass_ledger/phase_F_closure_audit_open_questions.md`. The next allowed action is user decisions on those questions, followed by the approved corrective component/integration pass. Do not close Milestone 1 or start Milestone 2.
